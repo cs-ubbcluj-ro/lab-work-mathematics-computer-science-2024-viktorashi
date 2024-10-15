@@ -43,15 +43,16 @@ Syntax
     definitie_int ::= "număr" identifier "=" (int | math_expr) ";"
     definitie_bool ::= "bul" identifier "=" bool
 
-    declaration ::= type identifier ";"
+definition ::= definitie_char | definitie_int | definitie_string 
 
+
+    
     assignment_int ::= identifier "=" int ";"
     assignment_char ::= identifier "=" char ";"
     assignment_string ::= identifier "=" string ";"
     assignment ::= assignment_int | assignment_char | assignment_string
 
-    definition ::= definitie_char | definitie_int | definitie_string 
-
+    
     io_statement ::= "citește" | "scrie" "(" identifier ")"
     atomic_statement ::= (definition | assignment | io_atomic_statement ){atomic_statement}
 
@@ -60,6 +61,8 @@ Syntax
     do_while ::= "fă" "{" atomic_statement "}" "cât" "(" condition ")" ";"
 
     statement ::= atomic_statement | if_statement | while_statement | do_while
+
+declaration ::= type identifier ";"
 
     struct ::= "structură" identifier "{" {declaration} "}"
 
