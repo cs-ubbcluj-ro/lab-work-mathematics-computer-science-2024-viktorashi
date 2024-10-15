@@ -1,0 +1,67 @@
+Sfântul C Language Specification:
+
+ 1 .Language Definition:
+
+  1.1 Alphabet:
+
+  1.1.a. Upper (A-Z) and lower case letters (a-z) of the romanian alphabet (including ăîșțâĂÎȘȚÂ)
+
+      b. Underline character '_';
+
+      c. Decimal digits (0-9);
+
+2. Lexic: 
+    operators
+        + - * / < <= = >= *= += -= /=  ==
+    separators
+          [ ] { } ; space
+    reserved words
+        char, int ,dacă, altfel, const, fă, cât (de la "cât timp", while), citește, scrie, 
+          
+          identifier ::= letter | letter{letter}{digit}
+          letter ::= "a" | "b" |...| "z" | "A" | "B" | ... | "Z" (including ăîșțâĂÎȘȚÂ)
+          digit ::= "0" | "1" |...| "9"
+          bool ::= "adevărat" | "fals"
+
+    constants 
+        int:=+number|-number|number
+        number:=digit{number}
+        char:=digit|letter 
+    strings
+        string:=" ' "char{string}" ' "
+        char:=letter|digit
+Syntax 
+    type ::= "cara"|"număr"|"șir"|"bul"
+    math_opp := "*"|"+"|"-"|"+"|"/"|"%"|"=="
+    math_expr ::= math_expr math_opp int
+    relation ::= "<" | "<=" | "=" | "<>" | ">=" | ">"
+    expression ::= math_expr | string | "sqrt(" ( identifier | const )  ")"
+    condition ::= expression relation expression | bool
+ 
+    definitie_char ::= "cara" identifier "=" char ";"
+    definitie_string ::= "șir" identifier "=" string ";"
+    definitie_int ::= "număr" identifier "=" (int | math_expr) ";"
+    definitie_bool ::= "bul" identifier "=" bool
+
+    declaration ::= type identifier ";"
+
+    assignment_int ::= identifier "=" int ";"
+    assignment_char ::= identifier "=" char ";"
+    assignment_string ::= identifier "=" string ";"
+    assignment ::= assignment_int | assignment_char | assignment_string
+
+    definition ::= definitie_char | definitie_int | definitie_string 
+
+    io_statement ::= "citește" | "scrie" "(" identifier ")"
+    atomic_statement ::= (definition | assignment | io_atomic_statement ){atomic_statement}
+
+    if_statement ::= "dacă" "(" condition ")" "{" atomic_statement "}" ["altfel" "{" atomic_statement "}"  ]
+    while_statement ::= "cât" "(" condition ")" "{" atomic_statement "}"
+    do_while ::= "fă" "{" atomic_statement "}" "cât" "(" condition ")" ";"
+
+    statement ::= atomic_statement | if_statement | while_statement | do_while
+
+    struct ::= "structură" identifier "{" {declaration} "}"
+
+    program ::= {definition}{statement}
+
