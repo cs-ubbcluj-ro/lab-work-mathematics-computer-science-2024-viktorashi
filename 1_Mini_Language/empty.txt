@@ -43,7 +43,7 @@ Syntax
     definitie_int ::= "număr" identifier "=" (int | math_expr) ";"
     definitie_bool ::= "bul" identifier "=" bool
 
-definition ::= definitie_char | definitie_int | definitie_string 
+    definition ::= definitie_char | definitie_int | definitie_string 
 
 
     
@@ -62,7 +62,7 @@ definition ::= definitie_char | definitie_int | definitie_string
 
     statement ::= atomic_statement | if_statement | while_statement | do_while
 
-declaration ::= type identifier ";"
+    declaration ::= type identifier ";"
 
     struct ::= "structură" identifier "{" {declaration} "}"
 
