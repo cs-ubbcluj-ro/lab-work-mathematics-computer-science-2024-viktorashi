@@ -1,18 +1,18 @@
 număr x = 0;
 număr i = 2;
-bul flag;
+bul steag;
 
 cât (x < n) {
-    flag = adevărat;
+    steag = adevărat;
     j = 2;
     cât ( j <= sqrt(i) ) {
         dacă (i%j == 0) {
-            flag = fals;
+            steag = fals;
             j = sqrt(i) + 1;
         }
         j = j + 1;
     }
-    dacă(flag){
+    dacă(steag){
         scrie(i);
         scrie(' ');
         x = x + 1;
