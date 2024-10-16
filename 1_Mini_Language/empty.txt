@@ -45,8 +45,6 @@ Syntax
 
     definition ::= definitie_char | definitie_int | definitie_string 
 
-
-    
     assignment_int ::= identifier "=" int ";"
     assignment_char ::= identifier "=" char ";"
     assignment_string ::= identifier "=" string ";"
