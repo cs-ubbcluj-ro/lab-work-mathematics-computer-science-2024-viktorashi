@@ -2085,7 +2085,7 @@ void yyfree (void * ptr )
 
 
 /* yywrap() - wraps the above rule section */
-int yywrap() {}
+int yywrap() {return 1;}
 
 int main(int argc, char** argv) {
 
