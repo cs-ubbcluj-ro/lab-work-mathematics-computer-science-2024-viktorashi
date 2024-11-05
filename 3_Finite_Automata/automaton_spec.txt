@@ -1,6 +1,12 @@
 Automaton Specification:
-Alphabet :
-    [a-zA-Z] - ori pentru setul de stateuri ori alfabet
-    ( or ) - doar de jur imprejuru unui state ca sa specifici daca e terminal sau nu, atunci cand scrii 3
-    ->
+
+    nonfinal_state ::= [a-zA-Z]+
+    final_state ::= "(" nonfinal_state ")"
+    state ::= nonfinal_state | final_state
+    
+    simbol ::= [a-zA-Z]
+
+    transition_arrow ::= "(" simbol ")" "->" 
+    transition ::= state transition state
+    
     
