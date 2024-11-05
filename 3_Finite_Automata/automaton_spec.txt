@@ -1,0 +1,6 @@
+Automaton Specification:
+Alphabet :
+    [a-zA-Z] - ori pentru setul de stateuri ori alfabet
+    ( or ) - doar de jur imprejuru unui state ca sa specifici daca e terminal sau nu, atunci cand scrii 3
+    ->
+    
