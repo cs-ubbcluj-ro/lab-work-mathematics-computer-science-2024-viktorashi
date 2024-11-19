@@ -43,22 +43,23 @@ class FiniteAutomaton:
 
     def parse(self, input_text: str):
         """Aici plecam de la definitie"""
+        #scoatem whitespaceu
         input_text = re.sub(r'#.*', '', input_text)
         input_text = re.sub(r'\s+', ' ', input_text).strip()
 
-        # Final states
+        # stateuri finale
         final_states_match = re.search(r'final states\s*=\s*{([^}]*)}', input_text)
         if final_states_match:
             final_states = [state.strip() for state in final_states_match.group(1).split(',')]
             for state in final_states:
                 self.add_final_state(state)
 
-        # Transitions
+        # trnazitii
         transition_matches = re.findall(r'(\w+)\s*\((\w)\)\s*->\s*(\w+)', input_text)
         for from_state, symbol, to_state in transition_matches:
             self.add_transition(from_state, symbol, to_state)
 
-        # Initial state 
+        # finalele
         if transition_matches and self.initial_state is None:
             self.set_initial_state(transition_matches[0][0])
 
