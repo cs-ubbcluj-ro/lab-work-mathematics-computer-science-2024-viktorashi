@@ -65,4 +65,3 @@ Syntax
     struct ::= "structură" identifier "{" {delaration} "}"
 
     program ::= {definition}{statement}
-

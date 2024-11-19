@@ -7,6 +7,7 @@ Automaton Specification:
 
     transition_arrow ::= "(" simbol ")" "->" 
     transition ::= state transition_arrow state
+    fa ::= set_of_final_states {transition}
 
 
 vezi ca cam tre sa incepi sa scrii cu initial state-u lmao
