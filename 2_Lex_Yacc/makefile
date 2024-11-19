@@ -1,4 +1,4 @@
 Sfantu_c:
-	flex limbaju.lex
+	flex analizeru.lex
 	clang lex.yy.c -o scanner -ll
 	./scanner program.lol

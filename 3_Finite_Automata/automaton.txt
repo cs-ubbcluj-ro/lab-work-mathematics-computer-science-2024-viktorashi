@@ -1,0 +1,4 @@
+# nuj asa un exemplu
+final states = {q2}
+q0 (a) -> q1
+q1 (b) -> q2

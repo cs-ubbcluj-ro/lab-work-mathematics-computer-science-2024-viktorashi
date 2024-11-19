@@ -1,0 +1,38 @@
+#states = {start, keyword, identifier, integer, char_literal, string_literal, math_op, rel_op, condition, assignment, definition, io, if_stmt, while_stmt, do_while_stmt, program}
+
+final states = {program}
+
+transition_arrow ::= "( [a-zA-ZăîșțâĂÎȘȚÂ0-9_] )" "->" 
+transition ::= state transition_arrow state
+
+transitions:
+start (char"|"int"|"șir"|"bul) -> definition
+start (dacă) -> if_stmt
+start (cât) -> while_stmt
+start (fă) -> do_while_stmt
+start (scrie"|"citește) -> io
+start ([a-zA-ZăîșțâĂÎȘȚÂ0-9_]) -> identifier
+start (') -> char_literal
+start ('"') -> string_literal
+start (+"|"-"|"*"|"/"|"%"|"="|"<"|">) -> math_op
+start (true"|"false) -> condition
+
+definition ( ) -> identifier
+identifier (=) -> assignment
+assignment (') -> char_literal
+assignment ('"') -> string_literal
+assignment ([a-zA-ZăîșțâĂÎȘȚÂ0-9_]) -> integer
+
+math_op ([a-zA-ZăîșțâĂÎȘȚÂ0-9_]) -> condition
+rel_op (<"|"<="|">"|">="|"==) -> condition
+condition ([a-zA-ZăîșțâĂÎȘȚÂ0-9_]) -> if_stmt
+condition ([a-zA-ZăîșțâĂÎȘȚÂ0-9_]) -> while_stmt
+
+if_stmt ({) -> statement
+if_stmt (altfel) -> if_stmt
+while_stmt ({) -> statement
+do_while_stmt (cât) -> condition
+
+statement ([a-zA-ZăîșțâĂÎȘȚÂ0-9_]) -> program
+statement (}) -> program
+program ([a-zA-ZăîșțâĂÎȘȚÂ0-9_]) -> program

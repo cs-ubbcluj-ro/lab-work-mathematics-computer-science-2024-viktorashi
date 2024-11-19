@@ -1,12 +1,15 @@
 Automaton Specification:
 
-    nonfinal_state ::= [a-zA-Z]+
-    final_state ::= "(" nonfinal_state ")"
-    state ::= nonfinal_state | final_state
+    state ::= [a-zA-Z]+
+    set_of_final_states ::= "final states" = {state}
     
     simbol ::= [a-zA-Z]
 
     transition_arrow ::= "(" simbol ")" "->" 
-    transition ::= state transition state
+    transition ::= state transition_arrow state
+
+
+vezi ca cam tre sa incepi sa scrii cu initial state-u lmao
+poate fac dupa sa poti sa incepi cu oricare si duap sa-ti dea aseama
     
     

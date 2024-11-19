@@ -1,0 +1,93 @@
+# Finite Automaton la Sfântul C dar un pic modificat sa semene cu pascal sa aiba start si end si din alea ca nu stiam cum sa fac altfel simcer
+Σ = {
+    'D' (Declaration),
+    'A' (Assignment), 
+    'I' (If statement),
+    'W' (While statement),
+    'F' (Do-While statement),
+    'E' (Expression),
+    'O' (IO Operation)
+}
+
+## stateurile
+Q = {
+    'START',
+    'DECLARATION_STATE',
+    'ASSIGNMENT_STATE', 
+    'IF_STATE',
+    'WHILE_STATE',
+    'DO_WHILE_STATE', 
+    'IO_STATE',
+    'EXPRESSION_STATE',
+    'END_PROGRAM'
+}
+
+## stateu initial
+q0 = 'START'
+
+## Final States
+final states = {'END_PROGRAM'}
+
+## Transitions
+
+1. START 
+    ('D') -> DECLARATION_STATE
+    ('A') -> ASSIGNMENT_STATE
+    ('I') -> IF_STATE
+    ('W') -> WHILE_STATE
+    ('F') -> DO_WHILE_STATE
+    ('O') -> IO_STATE
+
+2. DECLARATION_STATE
+    ('D') -> DECLARATION_STATE
+    ('A') -> ASSIGNMENT_STATE
+    ('I') -> IF_STATE
+    ('W') -> WHILE_STATE
+    ('F') -> DO_WHILE_STATE
+    ('O') -> IO_STATE
+
+3. ASSIGNMENT_STATE
+    ('A') -> ASSIGNMENT_STATE
+    ('I') -> IF_STATE
+    ('W') -> WHILE_STATE
+    ('F') -> DO_WHILE_STATE
+    ('O') -> IO_STATE
+    ('E') -> EXPRESSION_STATE
+
+4. IF_STATE
+    ('A') -> ASSIGNMENT_STATE
+    ('I') -> IF_STATE
+    ('W') -> WHILE_STATE
+    ('F') -> DO_WHILE_STATE
+    ('O') -> IO_STATE
+
+5. WHILE_STATE
+    ('A') -> ASSIGNMENT_STATE
+    ('I') -> IF_STATE
+    ('W') -> WHILE_STATE
+    ('F') -> DO_WHILE_STATE
+    ('O') -> IO_STATE
+
+6. DO_WHILE_STATE
+    ('A') -> ASSIGNMENT_STATE
+    ('I') -> IF_STATE
+    ('W') -> WHILE_STATE
+    ('F') -> DO_WHILE_STATE
+    ('O') -> IO_STATE
+
+7. IO_STATE
+    ('A') -> ASSIGNMENT_STATE
+    ('I') -> IF_STATE
+    ('W') -> WHILE_STATE
+    ('F') -> DO_WHILE_STATE
+    ('O') -> IO_STATE
+
+8. EXPRESSION_STATE
+    ('A') -> ASSIGNMENT_STATE
+    ('I') -> IF_STATE
+    ('W') -> WHILE_STATE
+    ('F') -> DO_WHILE_STATE
+    ('O') -> IO_STATE
+
+9. END_PROGRAM
+    () -> END_PROGRAM  (terminal state)
