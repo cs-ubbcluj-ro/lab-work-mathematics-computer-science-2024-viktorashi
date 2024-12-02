@@ -1,0 +1,104 @@
+Sfântul C Context free grammar:
+
+Alphabet / types / terminals esentially:
+    #make every letter in quotes
+    letter -> "a" | "b" | .... | "z" | "A" | "B" | .... | "Z" (including ăîșțâĂÎȘȚÂ)
+    digit -> "0" | "1" | ... | "9" (only decimal digits)
+    bool -> "adevărat" | "fals"
+
+reserved words
+    char, int ,dacă, altfel, const, fă, cât (de la "cât timp", while), citește, scrie, 
+        
+id
+    
+    
+    identifier -> letter | end_of_identifier
+    end_of_identifier -> end_of_identifier letter | end_of_identifier digit | ε
+
+    equivalent to BNF:
+    identifier ::= letter | letter{letter}{digit}
+
+    const -> "const" identifier
+
+constants 
+    int -> "+"number|"-"number|number
+    
+    number -> digit | number digit
+    eq to
+    number::=digit{number}
+    
+    char -> digit | letter
+strings
+    string -> " ' " char | multiple_chars " ' "
+    multiple_chars -> ε | multiple_chars char
+
+    eq to
+    string::=" ' "char{char}" ' "
+
+Syntax 
+    
+    type -> "cara" | "număr" | "șir" | "bul"
+    math_opp -> "*" | "+" | "-" | "+" | "/" | "%" | "=="
+    
+    #TODO nuj sigur de asta tbh daca e bine, gonna commit it like that doamne ajuta
+    multiple_math_expr -> multiple_math_expr math_expr | math_expr
+    math_expr -> multiple_math_expr math_opp multiple_math_expr | int
+
+    eq to i think
+    math_expr ::=  { math_expr }+ math_opp { math_expr }+ | int  
+
+    relation -> "<" | "<=" | "=" | "<>" | ">=" | ">"
+    expression -> math_expr | string | "sqrt(" ( identifier | const )  ")"
+    condition -> expression relation expression | bool
+ 
+    char_definition -> "cara" identifier "=" char ";"
+    string_definition -> "șir" identifier "=" string ";"
+    int_definition -> "număr" identifier "=" (int | math_expr) ";"
+    bool_definition -> "bul" identifier "=" bool    
+
+    declaration -> type identifier ";"
+    
+    struct -> "structură" identifier "{" multiple_declarations "}"
+
+    eq to
+    struct_defintion ::= "structură" identifier "{" { declaration } "}"
+
+    definition -> char_definition | int_definition | string_definition | struct
+
+    assignment_int -> identifier "=" int ";"
+    assignment_char -> identifier "=" char ";"
+    assignment_string -> identifier "=" string ";"  
+    assignment_struct -> identifier "." identifier "=" expression ";"
+
+    assignment -> assignment_int | assignment_char | assignment_string | assignment_struct
+
+    
+    io_statement -> "citește" | "scrie" "(" identifier ")"
+    
+    atomic_statement -> definition | assignment | io_statement 
+
+    if_statement -> "dacă" "(" condition ")" "{" multiple_atomic_statements "}" else_clause
+
+    multiple_atomic_statements -> multiple_atomic_statements atomic_statement | ε
+    else_clause -> "altfel" "{" multiple_atomic_statements "}" | ε
+
+    eq to
+    if_statement ::= "dacă" "(" condition ")" "{" {atomic_statement} "}" ["altfel" "{" { atomic_statement } "}"  ]
+    
+    while_statement -> "cât" "(" condition ")" "{" multiple_atomic_statements "}"
+    
+    eq to
+    while_statement ::= "cât" "(" condition ")" "{" { atomic_statement } "}"
+    
+    do_while -> "fă" "{" multiple_atomic_statements "}" "cât" "(" condition ")" ";"
+
+    statement -> atomic_statement | if_statement | while_statement | do_while
+
+    multiple_declarations -> multiple_declarations declaration | ε
+
+    multiple_definitions -> multiple_definitions definition | definition
+    multiple_statements -> multiple_statements statement | statement
+    program -> multiple_definitions multiple_statements
+    
+    eq to 
+    program ::= {definition}{statement}
