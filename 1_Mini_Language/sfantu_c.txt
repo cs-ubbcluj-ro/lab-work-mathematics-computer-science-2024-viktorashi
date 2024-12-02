@@ -67,4 +67,5 @@ Syntax
 
     statement ::= atomic_statement | if_statement | while_statement | do_while
 
+    #Start:
     program ::= {definition}{statement}

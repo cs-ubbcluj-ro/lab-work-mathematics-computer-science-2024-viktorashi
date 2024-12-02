@@ -11,9 +11,8 @@ reserved words
         
 id
     
-    
-    identifier -> letter | end_of_identifier
-    end_of_identifier -> end_of_identifier letter | end_of_identifier digit | ε
+    identifier -> letter | multiple_chars
+    multiple_chars -> multiple_chars letter | multiple_chars digit | letter | digit
 
     equivalent to BNF:
     identifier ::= letter | letter{letter}{digit}
@@ -77,9 +76,10 @@ Syntax
     
     atomic_statement -> definition | assignment | io_statement 
 
+    multiple_atomic_statements -> multiple_atomic_statements atomic_statement | ε
+    
     if_statement -> "dacă" "(" condition ")" "{" multiple_atomic_statements "}" else_clause
 
-    multiple_atomic_statements -> multiple_atomic_statements atomic_statement | ε
     else_clause -> "altfel" "{" multiple_atomic_statements "}" | ε
 
     eq to
@@ -98,6 +98,8 @@ Syntax
 
     multiple_definitions -> multiple_definitions definition | definition
     multiple_statements -> multiple_statements statement | statement
+    
+    #Start symbol:
     program -> multiple_definitions multiple_statements
     
     eq to 
