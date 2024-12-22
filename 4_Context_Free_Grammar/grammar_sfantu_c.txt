@@ -40,13 +40,13 @@ Syntax
     math_opp -> "*" | "+" | "-" | "+" | "/" | "%" | "=="
     
     #TODO nuj sigur de asta tbh daca e bine, gonna commit it like that doamne ajuta
-    multiple_math_expr -> multiple_math_expr math_expr | math_expr
     math_expr -> multiple_math_expr math_opp multiple_math_expr | int
+    multiple_math_expr -> multiple_math_expr math_expr | math_expr
 
     eq to i think
     math_expr ::=  { math_expr }+ math_opp { math_expr }+ | int  
 
-    relation -> "<" | "<=" | "=" | "<>" | ">=" | ">"
+    relation -> "<" | "<=" | "=" | "!>" | ">=" | ">"
     expression -> math_expr | string | "sqrt(" ( identifier | const )  ")"
     condition -> expression relation expression | bool
  
