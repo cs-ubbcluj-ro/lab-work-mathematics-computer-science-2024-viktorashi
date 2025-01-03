@@ -86,7 +86,7 @@ expression : math_expr { record_production("expression dar mate"); }
 
 /* bool_const -> 'adevăr' | 'minciună' */
 bool_const: ADEV { record_production("adev"); }
-          | FALS { record_production("minciunicaaaa") };
+          | FALS { record_production("minciunicaaaa"); };
 
 /* condition -> expression relation expression | bool */
 condition : expression relation expression { record_production("conditie mare"); }
