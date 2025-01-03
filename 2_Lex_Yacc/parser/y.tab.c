@@ -169,11 +169,11 @@ extern int yydebug;
 
 void yyerror(const char *s);
 
-int productions_used[1000];
+char * productions_used[28];
 int prod_count = 0;
 
-void record_production(unsigned short num) {
-    productions_used[prod_count++] = num; 
+void record_production(char * production_name) {
+    productions_used[prod_count++] = production_name;
 }
 
 
@@ -524,11 +524,11 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    40,    40,    52,    53,    54,    55,    58,    59,    60,
-      61,    62,    65,    66,    69,    70,    73,    74,    75,    76,
-      77,    78,    81,    82,    83,    84,    87,    88,    91,    94,
-      97,    98,   101,   104,   107,   108,   111,   114,   115,   116,
-     117,   118,   121,   124,   127,   130,   134,   135,   136,   137,
+       0,    41,    41,    53,    54,    55,    56,    59,    60,    61,
+      62,    63,    66,    67,    70,    71,    74,    75,    76,    77,
+      78,    79,    82,    83,    84,    85,    88,    89,    92,    95,
+      98,    99,   102,   105,   108,   109,   112,   115,   116,   117,
+     118,   119,   122,   125,   128,   131,   134,   135,   136,   137,
      141,   142,   146,   147,   148,   152,   153,   157,   161,   162,
      166,   170,   174,   175,   176,   177,   181,   182,   183,   186,
      187,   188,   190,   191
@@ -549,9 +549,9 @@ static const char *const yytname[] =
   "type", "math_opp", "math_expr", "multiple_math_expr", "relation",
   "expression", "condition", "char_definition", "string_definition",
   "int_definition", "bool_definition", "declaration",
-  "multiple_declarations", "struct", "definition", "assignment_int",
-  "assignment_char", "assignment_string", "assignment_struct",
-  "assignment", "io_statement", "atomic_statement",
+  "multiple_declarations", "struct_definition", "definition",
+  "int_assignment", "char_assignment", "string_assignment",
+  "struct_assignment", "assignment", "io_statement", "atomic_statement",
   "multiple_atomic_statements", "if_statement", "else_clause",
   "while_statement", "do_while", "statement", "multiple_definitions",
   "multiple_statements", "bool_const", 0
@@ -1541,341 +1541,341 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 41 "parser.y"
+#line 42 "parser.y"
     { 
-        record_production(70); 
+        record_production("program"); 
         printf("E bun\n"); 
         printf("Productiile sunt: ");
         for (int i = 0; i < prod_count; i++) {
-            printf("%d ", productions_used[i]);
+            printf("%s ", productions_used[i]);
         }
         printf("\n");
     }
     break;
 
   case 3:
-#line 52 "parser.y"
-    { record_production(1); }
+#line 53 "parser.y"
+    { record_production("type char"); }
     break;
 
   case 4:
-#line 53 "parser.y"
-    { record_production(2); }
+#line 54 "parser.y"
+    { record_production("type int"); }
     break;
 
   case 5:
-#line 54 "parser.y"
-    { record_production(3); }
+#line 55 "parser.y"
+    { record_production("type string"); }
     break;
 
   case 6:
-#line 55 "parser.y"
-    { record_production(4); }
+#line 56 "parser.y"
+    { record_production("type bool"); }
     break;
 
   case 7:
-#line 58 "parser.y"
-    { record_production(5); }
+#line 59 "parser.y"
+    { record_production("plus"); }
     break;
 
   case 8:
-#line 59 "parser.y"
-    { record_production(6); }
+#line 60 "parser.y"
+    { record_production("minus"); }
     break;
 
   case 9:
-#line 60 "parser.y"
-    { record_production(7); }
+#line 61 "parser.y"
+    { record_production("mul"); }
     break;
 
   case 10:
-#line 61 "parser.y"
-    { record_production(8); }
+#line 62 "parser.y"
+    { record_production("div"); }
     break;
 
   case 11:
-#line 62 "parser.y"
-    { record_production(9); }
+#line 63 "parser.y"
+    { record_production("eq"); }
     break;
 
   case 12:
-#line 65 "parser.y"
-    { record_production(10); }
+#line 66 "parser.y"
+    { record_production("math"); }
     break;
 
   case 13:
-#line 66 "parser.y"
-    { record_production(11); }
+#line 67 "parser.y"
+    { record_production("int const"); }
     break;
 
   case 14:
-#line 69 "parser.y"
-    { record_production(12); }
+#line 70 "parser.y"
+    { record_production("multiple math expr"); }
     break;
 
   case 15:
-#line 70 "parser.y"
-    { record_production(13); }
+#line 71 "parser.y"
+    { record_production("math_expr"); }
     break;
 
   case 16:
-#line 73 "parser.y"
-    { record_production(14); }
+#line 74 "parser.y"
+    { record_production("<"); }
     break;
 
   case 17:
-#line 74 "parser.y"
-    { record_production(15); }
+#line 75 "parser.y"
+    { record_production("<="); }
     break;
 
   case 18:
-#line 75 "parser.y"
-    { record_production(16); }
+#line 76 "parser.y"
+    { record_production("="); }
     break;
 
   case 19:
-#line 76 "parser.y"
-    { record_production(17); }
+#line 77 "parser.y"
+    { record_production("!="); }
     break;
 
   case 20:
-#line 77 "parser.y"
-    { record_production(18); }
+#line 78 "parser.y"
+    { record_production(">="); }
     break;
 
   case 21:
-#line 78 "parser.y"
-    { record_production(19); }
+#line 79 "parser.y"
+    { record_production(">"); }
     break;
 
   case 22:
-#line 81 "parser.y"
-    { record_production(20); }
+#line 82 "parser.y"
+    { record_production("expression dar mate"); }
     break;
 
   case 23:
-#line 82 "parser.y"
-    { record_production(21); }
+#line 83 "parser.y"
+    { record_production("string literal"); }
     break;
 
   case 24:
-#line 83 "parser.y"
-    { record_production(22); }
+#line 84 "parser.y"
+    { record_production("radical identifier"); }
     break;
 
   case 25:
-#line 84 "parser.y"
-    { record_production(23); }
+#line 85 "parser.y"
+    { record_production("radical const"); }
     break;
 
   case 26:
-#line 87 "parser.y"
-    { record_production(24); }
+#line 88 "parser.y"
+    { record_production("conditie mare"); }
     break;
 
   case 27:
-#line 88 "parser.y"
-    { record_production(25); }
+#line 89 "parser.y"
+    { record_production("bool const"); }
     break;
 
   case 28:
-#line 91 "parser.y"
-    { record_production(26); }
+#line 92 "parser.y"
+    { record_production("char_definition"); }
     break;
 
   case 29:
-#line 94 "parser.y"
-    { record_production(27); }
+#line 95 "parser.y"
+    { record_production("string_definition"); }
     break;
 
   case 30:
-#line 97 "parser.y"
-    { record_production(28); }
+#line 98 "parser.y"
+    { record_production("int_definition int const"); }
     break;
 
   case 31:
-#line 98 "parser.y"
-    { record_production(29); }
+#line 99 "parser.y"
+    { record_production("int def expresie"); }
     break;
 
   case 32:
-#line 101 "parser.y"
-    { record_production(30); }
+#line 102 "parser.y"
+    { record_production("bool_definition"); }
     break;
 
   case 33:
-#line 104 "parser.y"
-    { record_production(31); }
+#line 105 "parser.y"
+    { record_production("declaration"); }
     break;
 
   case 34:
-#line 107 "parser.y"
-    { record_production(32); }
+#line 108 "parser.y"
+    { record_production("multiple declarations "); }
     break;
 
   case 35:
-#line 108 "parser.y"
-    { record_production(33); }
+#line 109 "parser.y"
+    {}
     break;
 
   case 36:
-#line 111 "parser.y"
-    { record_production(34); }
+#line 112 "parser.y"
+    { record_production("struct"); }
     break;
 
   case 37:
-#line 114 "parser.y"
-    { record_production(35); }
+#line 115 "parser.y"
+    { record_production("char definition"); }
     break;
 
   case 38:
-#line 115 "parser.y"
-    { record_production(36); }
+#line 116 "parser.y"
+    { record_production("int definition"); }
     break;
 
   case 39:
-#line 116 "parser.y"
-    { record_production(37); }
+#line 117 "parser.y"
+    { record_production("string definition"); }
     break;
 
   case 40:
-#line 117 "parser.y"
-    { record_production(38); }
+#line 118 "parser.y"
+    { record_production("struct definition"); }
     break;
 
   case 41:
-#line 118 "parser.y"
-    { record_production(39); }
+#line 119 "parser.y"
+    { record_production("bool definition"); }
     break;
 
   case 42:
-#line 121 "parser.y"
-    { record_production(40); }
+#line 122 "parser.y"
+    { record_production("assignment_int"); }
     break;
 
   case 43:
-#line 124 "parser.y"
-    { record_production(41); }
+#line 125 "parser.y"
+    { record_production("assignment_char");}
     break;
 
   case 44:
-#line 127 "parser.y"
-    { record_production(42); }
+#line 128 "parser.y"
+    { record_production("assignment_string"); }
     break;
 
   case 45:
-#line 130 "parser.y"
-    { record_production(43); }
+#line 131 "parser.y"
+    { record_production("assignment_struct"); }
     break;
 
   case 46:
 #line 134 "parser.y"
-    { record_production(44); }
+    { record_production("int assignment"); }
     break;
 
   case 47:
 #line 135 "parser.y"
-    { record_production(45); }
+    { record_production("char assignment"); }
     break;
 
   case 48:
 #line 136 "parser.y"
-    { record_production(46); }
+    { record_production("string assignment"); }
     break;
 
   case 49:
 #line 137 "parser.y"
-    { record_production(47); }
+    { record_production("struct assignment"); }
     break;
 
   case 50:
 #line 141 "parser.y"
-    { record_production(48); }
+    { record_production("cin"); }
     break;
 
   case 51:
 #line 142 "parser.y"
-    { record_production(49); }
+    { record_production("cout"); }
     break;
 
   case 52:
 #line 146 "parser.y"
-    { record_production(50); }
+    { record_production("atomic def"); }
     break;
 
   case 53:
 #line 147 "parser.y"
-    { record_production(51); }
+    { record_production("atomic assignment"); }
     break;
 
   case 54:
 #line 148 "parser.y"
-    { record_production(51); }
+    { record_production("atomic io statement"); }
     break;
 
   case 55:
 #line 152 "parser.y"
-    { record_production(53); }
+    { record_production("multiple_atomic_statements"); }
     break;
 
   case 56:
 #line 153 "parser.y"
-    { record_production(54); }
+    {}
     break;
 
   case 57:
 #line 157 "parser.y"
-    { record_production(55); }
+    { record_production("if_statement"); }
     break;
 
   case 58:
 #line 161 "parser.y"
-    { record_production(56); }
+    { record_production("else_clause"); }
     break;
 
   case 59:
 #line 162 "parser.y"
-    { record_production(57); }
+    { record_production("gol din else clause"); }
     break;
 
   case 60:
 #line 166 "parser.y"
-    { record_production(58); }
+    { record_production("while_statement"); }
     break;
 
   case 61:
 #line 170 "parser.y"
-    { record_production(59); }
+    { record_production("do_while"); }
     break;
 
   case 62:
 #line 174 "parser.y"
-    { record_production(60); }
+    { record_production("atomc statement"); }
     break;
 
   case 63:
 #line 175 "parser.y"
-    { record_production(61); }
+    { record_production("if statement"); }
     break;
 
   case 64:
 #line 176 "parser.y"
-    { record_production(62); }
+    { record_production("while statement"); }
     break;
 
   case 65:
 #line 177 "parser.y"
-    { record_production(63); }
+    { record_production("do statement"); }
     break;
 
   case 66:
 #line 181 "parser.y"
-    { record_production(64); }
+    { record_production("multiple def 1"); }
     break;
 
   case 67:
 #line 182 "parser.y"
-    { record_production(65); }
+    { record_production("multiple def 2"); }
     break;
 
   case 68:
@@ -1885,12 +1885,12 @@ yyreduce:
 
   case 69:
 #line 186 "parser.y"
-    { record_production(66); }
+    { record_production("mult statements 1"); }
     break;
 
   case 70:
 #line 187 "parser.y"
-    { record_production(67); }
+    { record_production("mult statements 2"); }
     break;
 
   case 71:
@@ -1900,12 +1900,12 @@ yyreduce:
 
   case 72:
 #line 190 "parser.y"
-    { record_production(68); }
+    { record_production("adev"); }
     break;
 
   case 73:
 #line 191 "parser.y"
-    { record_production(69); }
+    { record_production("fals"); }
     break;
 
 
@@ -2131,8 +2131,8 @@ void yyerror(const char *s) {
     fprintf(stderr, "EROAREEE: %s\n", s);
     if (prod_count > 0) {
         // productia cu eroarea
-        int last_prod = productions_used[prod_count - 1];
-        printf("Ultima productie buna: %d\n", last_prod);
+        char* last_prod = productions_used[prod_count - 1];
+        printf("Ultima productie buna: %s\n", last_prod);
     } else {
         printf("Nici n-am apucat sa reduc vreun product pana a aparut eroarea \n");
     }

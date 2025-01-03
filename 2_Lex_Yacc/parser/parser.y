@@ -14,11 +14,11 @@ extern int yydebug;
 
 void yyerror(const char *s);
 
-int productions_used[1000];
+char * productions_used[28];
 int prod_count = 0;
 
-void record_production(unsigned short num) {
-    productions_used[prod_count++] = num; 
+void record_production(char * production_name) {
+    productions_used[prod_count++] = production_name;
 }
 
 %}
@@ -36,170 +36,170 @@ void record_production(unsigned short num) {
 %%
 
 /*     #Start symbol:
-program -> "număr șefu () {" multiple_definitions multiple_statements "rezultă" int_const  "}" */
+
+program -> "număr șefu () {" multiple_declarations multiple_definitions multiple_statements "rezultă" int_const;  "}" */
 program: INT MAIN LPAREN RPAREN LBRACE multiple_declarations multiple_definitions multiple_statements RETURN INT_CONST SEMICOLON RBRACE
     { 
-        record_production(70); 
+        record_production("program"); 
         printf("E bun\n"); 
         printf("Productiile sunt: ");
         for (int i = 0; i < prod_count; i++) {
-            printf("%d ", productions_used[i]);
+            printf("%s ", productions_used[i]);
         }
         printf("\n");
     }
 ;
 
-type: CHAR { record_production(1); }
-    | INT  { record_production(2); }
-    | STRING  { record_production(3); }
-    | BOOL { record_production(4); };
+type: CHAR { record_production("type char"); }
+    | INT  { record_production("type int"); }
+    | STRING  { record_production("type string"); }
+    | BOOL { record_production("type bool"); };
 
 /* math_opp -> "*" | "+" | "-" | "+" | "/" | "%" | "==" */
-math_opp: PLUS  { record_production(5); }
-        | MINUS { record_production(6); }
-        | MUL  { record_production(7); }
-        | DIV  { record_production(8); }
-        | EQ { record_production(9); };
+math_opp: PLUS  { record_production("plus"); }
+        | MINUS { record_production("minus"); }
+        | MUL  { record_production("mul"); }
+        | DIV  { record_production("div"); }
+        | EQ { record_production("eq"); };
 
 /* math_expr -> multiple_math_expr math_opp multiple_math_expr | int */
-math_expr : multiple_math_expr math_opp multiple_math_expr  { record_production(10); }
-          | INT_CONST { record_production(11); };
+math_expr : multiple_math_expr math_opp multiple_math_expr  { record_production("math"); }
+          | INT_CONST { record_production("int const"); };
 
 /*  multiple_math_expr -> multiple_math_expr math_expr | math_expr */
-multiple_math_expr: multiple_math_expr math_expr { record_production(12); }
-                  | math_expr { record_production(13); };
+multiple_math_expr: multiple_math_expr math_expr { record_production("multiple math expr"); }
+                  | math_expr { record_production("math_expr"); };
 
 /* relation -> "<" | "<=" | "=" | "!=" | ">=" | ">" */
-relation : LT { record_production(14); }
-        | LTE { record_production(15); }
-        | EQ { record_production(16); }
-        | NEQ { record_production(17); }
-        | GTE { record_production(18); }
-        | GT { record_production(19); };
+relation : LT { record_production("<"); }
+        | LTE { record_production("<="); }
+        | EQ { record_production("="); }
+        | NEQ { record_production("!="); }
+        | GTE { record_production(">="); }
+        | GT { record_production(">"); };
 
 /* expression -> math_expr | string | "sqrt(" ( identifier | const )  ")" */
-expression : math_expr { record_production(20); }
-           | STRING_LITERAL { record_production(21); }
-           | SQRT LPAREN IDENTIFIER RPAREN { record_production(22); }
-           | SQRT LPAREN INT_CONST RPAREN { record_production(23); };
+expression : math_expr { record_production("expression dar mate"); }
+           | STRING_LITERAL { record_production("string literal"); }
+           | SQRT LPAREN IDENTIFIER RPAREN { record_production("radical identifier"); }
+           | SQRT LPAREN INT_CONST RPAREN { record_production("radical const"); };
 
 /* condition -> expression relation expression | bool */
-condition : expression relation expression { record_production(24); }
-          | bool_const { record_production(25); };
+condition : expression relation expression { record_production("conditie mare"); }
+          | bool_const { record_production("bool const"); };
 
 //     char_definition -> "cara" identifier "=" char ";" 
-char_definition : CHAR IDENTIFIER ASSIGN CHAR_LITERAL SEMICOLON { record_production(26); };
+char_definition : CHAR IDENTIFIER ASSIGN CHAR_LITERAL SEMICOLON { record_production("char_definition"); };
 
 // string_definition -> "șir" identifier "=" string ";" 
-string_definition : STRING IDENTIFIER ASSIGN STRING_LITERAL SEMICOLON { record_production(27); };
+string_definition : STRING IDENTIFIER ASSIGN STRING_LITERAL SEMICOLON { record_production("string_definition"); };
 
-// int_definition -> "număr" identifier "=" (int | math_expr) ";"
-int_definition : INT IDENTIFIER ASSIGN INT_CONST SEMICOLON { record_production(28); }
-              | INT IDENTIFIER ASSIGN math_expr SEMICOLON { record_production(29); };
+// int_definition -> "număr" identifier "=" (int_const | math_expr) ";"
+int_definition : INT IDENTIFIER ASSIGN INT_CONST SEMICOLON { record_production("int_definition int const"); }
+              | INT IDENTIFIER ASSIGN math_expr SEMICOLON { record_production("int def expresie"); };
 
 // bool_definition -> "bul" identifier "=" bool ";"
-bool_definition : BOOL IDENTIFIER ASSIGN bool_const SEMICOLON { record_production(30); };
+bool_definition : BOOL IDENTIFIER ASSIGN bool_const SEMICOLON { record_production("bool_definition"); };
 
 //     declaration -> type identifier ";"
-declaration : type IDENTIFIER SEMICOLON { record_production(31); };
+declaration : type IDENTIFIER SEMICOLON { record_production("declaration"); };
 
 /*     multiple_declarations -> multiple_declarations declaration | ε */
-multiple_declarations : declaration multiple_declarations { record_production(32); }
-                      | { record_production(33); };
+multiple_declarations : declaration multiple_declarations { record_production("multiple declarations "); }
+                      | {};
 
 // struct -> "structură" identifier "{" multiple_declarations "}" 
-struct : STRUCT_TYPE IDENTIFIER LBRACE multiple_declarations RBRACE { record_production(34); };
+struct_definition : STRUCT_TYPE IDENTIFIER LBRACE multiple_declarations RBRACE { record_production("struct"); };
 
 //     definition -> char_definition | int_definition | string_definition | struct 
-definition : char_definition { record_production(35); }
-           | int_definition { record_production(36); }
-           | string_definition { record_production(37); }
-           | struct { record_production(38); };
-           | bool_definition { record_production(39); };
+definition : char_definition { record_production("char definition"); }
+           | int_definition { record_production("int definition"); }
+           | string_definition { record_production("string definition"); }
+           | struct_definition { record_production("struct definition"); };
+           | bool_definition { record_production("bool definition"); };
 
 //     assignment_int -> identifier "=" int ";"
-assignment_int : IDENTIFIER ASSIGN INT_CONST SEMICOLON { record_production(40); };
+int_assignment : IDENTIFIER ASSIGN INT_CONST SEMICOLON { record_production("assignment_int"); };
 
 // assignment_char -> identifier "=" char ";"
-assignment_char : IDENTIFIER ASSIGN CHAR_LITERAL SEMICOLON { record_production(41); };
+char_assignment : IDENTIFIER ASSIGN CHAR_LITERAL SEMICOLON { record_production("assignment_char");};
 
 // assignment_string -> identifier "=" string ";"  
-assignment_string : IDENTIFIER ASSIGN STRING_LITERAL SEMICOLON { record_production(42); };
+string_assignment : IDENTIFIER ASSIGN STRING_LITERAL SEMICOLON { record_production("assignment_string"); };
 
 // assignment_struct -> identifier "." identifier "=" expression ";" 
-assignment_struct : IDENTIFIER DOT IDENTIFIER ASSIGN expression SEMICOLON { record_production(43); }
-;
+struct_assignment : IDENTIFIER DOT IDENTIFIER ASSIGN expression SEMICOLON { record_production("assignment_struct"); } ;
 
 //     assignment -> assignment_int | assignment_char | assignment_string | assignment_struct 
-assignment : assignment_int { record_production(44); }
-           | assignment_char { record_production(45); }
-           | assignment_string { record_production(46); }
-           | assignment_struct { record_production(47); }
+assignment : int_assignment { record_production("int assignment"); }
+           | char_assignment { record_production("char assignment"); }
+           | string_assignment { record_production("string assignment"); }
+           | struct_assignment { record_production("struct assignment"); }
            ;
 
 /*     io_statement -> "citește" >> identifier | "scrie" << identifier */
-io_statement : CIN STREAMOUT IDENTIFIER { record_production(48); }
-             | COUT STREAMIN IDENTIFIER { record_production(49); }
+io_statement : CIN STREAMOUT IDENTIFIER { record_production("cin"); }
+             | COUT STREAMIN IDENTIFIER { record_production("cout"); }
              ;
 
 /*     atomic_statement -> definition | assignment | io_statement  */
-atomic_statement : definition { record_production(50); }
-                | assignment { record_production(51); }
-                | io_statement { record_production(51); }
+atomic_statement : definition { record_production("atomic def"); }
+                | assignment { record_production("atomic assignment"); }
+                | io_statement { record_production("atomic io statement"); }
                 ;
 
 /*     multiple_atomic_statements -> multiple_atomic_statements atomic_statement | ε */
-multiple_atomic_statements : multiple_atomic_statements atomic_statement { record_production(53); }
-                           | { record_production(54); }
+multiple_atomic_statements : multiple_atomic_statements atomic_statement { record_production("multiple_atomic_statements"); }
+                           | {}
                            ;
 
 /*     if_statement -> "dacă" "(" condition ")" "{" multiple_atomic_statements "}" else_clause */
-if_statement : IF LPAREN condition RPAREN LBRACE multiple_atomic_statements RBRACE else_clause { record_production(55); }
+if_statement : IF LPAREN condition RPAREN LBRACE multiple_atomic_statements RBRACE else_clause { record_production("if_statement"); }
 ;
 
 /*     else_clause -> "altfel" "{" multiple_atomic_statements "}" | ε */
-else_clause : ELSE LBRACE multiple_atomic_statements RBRACE { record_production(56); }
-            | { record_production(57); }
+else_clause : ELSE LBRACE multiple_atomic_statements RBRACE { record_production("else_clause"); }
+            | { record_production("gol din else clause"); }
 ;
 
 /*     while_statement -> "cât" "(" condition ")" "{" multiple_atomic_statements "}" */
-while_statement : WHILE LPAREN condition RPAREN LBRACE multiple_atomic_statements RBRACE { record_production(58); }
+while_statement : WHILE LPAREN condition RPAREN LBRACE multiple_atomic_statements RBRACE { record_production("while_statement"); }
 ;
 
 /*     do_while -> "fă" "{" multiple_atomic_statements "}" "cât" "(" condition ")" ";" */
-do_while : DO LBRACE multiple_atomic_statements RBRACE WHILE LPAREN condition RPAREN SEMICOLON { record_production(59); }
+do_while : DO LBRACE multiple_atomic_statements RBRACE WHILE LPAREN condition RPAREN SEMICOLON { record_production("do_while"); }
 ;
 
 /*     statement -> atomic_statement | if_statement | while_statement | do_while */
-statement : atomic_statement { record_production(60); }
-          | if_statement { record_production(61); }
-          | while_statement { record_production(62); }
-          | do_while { record_production(63); }
+statement : atomic_statement { record_production("atomc statement"); }
+          | if_statement { record_production("if statement"); }
+          | while_statement { record_production("while statement"); }
+          | do_while { record_production("do statement"); }
 ;
 
 //     multiple_definitions -> multiple_definitions definition | definition
-multiple_definitions : definition multiple_definitions { record_production(64); }
-                     | definition { record_production(65); }
+multiple_definitions : definition multiple_definitions { record_production("multiple def 1"); }
+                     | definition { record_production("multiple def 2"); }
                      | {}
 ;
 // multiple_statements -> multiple_statements statement | statement 
-multiple_statements : statement multiple_statements { record_production(66); }
-                    | statement { record_production(67); }
+multiple_statements : statement multiple_statements { record_production("mult statements 1"); }
+                    | statement { record_production("mult statements 2"); }
                     | {}
 ;
-bool_const: ADEV { record_production(68); }
-    | FALS { record_production(69); };
+bool_const: ADEV { record_production("adev"); }
+    | FALS { record_production("fals"); };
 
 
-/* sau trebuia sa pun invers toate astea? */
+/* sau trebuia sa pun invers toate astea? sincer creca nu  */
 %%
 
 void yyerror(const char *s) {
     fprintf(stderr, "EROAREEE: %s\n", s);
     if (prod_count > 0) {
         // productia cu eroarea
-        int last_prod = productions_used[prod_count - 1];
-        printf("Ultima productie buna: %d\n", last_prod);
+        char* last_prod = productions_used[prod_count - 1];
+        printf("Ultima productie buna: %s\n", last_prod);
     } else {
         printf("Nici n-am apucat sa reduc vreun product pana a aparut eroarea \n");
     }
