@@ -84,6 +84,10 @@ expression : math_expr { record_production("expression dar mate"); }
            | SQRT LPAREN IDENTIFIER RPAREN { record_production("radical identifier"); }
            | SQRT LPAREN INT_CONST RPAREN { record_production("radical const"); };
 
+/* bool_const -> 'adevăr' | 'minciună' */
+bool_const: ADEV { record_production("adev"); }
+          | FALS { record_production("minciunicaaaa") };
+
 /* condition -> expression relation expression | bool */
 condition : expression relation expression { record_production("conditie mare"); }
           | bool_const { record_production("bool const"); };
@@ -187,8 +191,7 @@ multiple_statements : statement multiple_statements { record_production("mult st
                     | statement { record_production("mult statements 2"); }
                     | {}
 ;
-bool_const: ADEV { record_production("adev"); }
-    | FALS { record_production("fals"); };
+
 
 
 /* sau trebuia sa pun invers toate astea? sincer creca nu  */
@@ -219,9 +222,9 @@ int main(int argc, char **argv) {
     }
 
     if (!yyparse()) {
-        // adica nu cred ca e nevoie ca gen deja sa dat print ca e ok
+        printf("ok gataa e totu binee\n");
     } else {
-        // yyerror o sa si dea call oricum
+        printf("nu stiu cek kt are sincer sa fiu lmao\n");
     }
     return 0;
 }
