@@ -85,7 +85,7 @@ bool_expression : math_expr relation math_expr { record_production("math express
                 | bool_const { record_production("bool const"); };
                 | math_expr { record_production("math expr in bool exp"); };
                 | IDENTIFIER relation IDENTIFIER { record_production("identifiers relation"); }
-                | IDENTIFIER { record_production("identifier in bool exp"); };
+                ;
 
 //     char_definition -> "cara" identifier "=" char ";" 
 char_definition : CHAR IDENTIFIER ASSIGN CHAR_LITERAL SEMICOLON { record_production("char_definition"); };
