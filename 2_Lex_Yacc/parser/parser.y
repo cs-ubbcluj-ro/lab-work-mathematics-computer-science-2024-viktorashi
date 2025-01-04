@@ -15,7 +15,7 @@ extern int yydebug;
 void yyerror(const char *s);
 
 //doar ultimul production ca da buffer overflow nebun rau intra in ce memorie vrea cand fac arryu asta
-char * last_production;
+char * last_production="nimic lol";
 
 int prod_count = 0;
 
@@ -25,7 +25,7 @@ void record_production(char * production_name) {
 
 %}
 
-%token INT IF ELSE WHILE STRUCT_TYPE CIN COUT BOOL CHAR STRING INT_CONST STRING_LITERAL IDENTIFIER LBRACE RBRACE LPAREN RPAREN EQ NEQ LTE GTE LT GT ASSIGN SEMICOLON PLUS MINUS MUL DIV RETURN MAIN SQRT CHAR_LITERAL DOT STREAMIN STREAMOUT DO ADEV FALS
+%token INT IF ELSE WHILE STRUCT_TYPE CIN COUT BOOL CHAR STRING INT_CONST STRING_LITERAL IDENTIFIER LBRACE RBRACE LPAREN RPAREN EQ NEQ LTE GTE LT GT ASSIGN SEMICOLON PLUS MINUS MUL DIV RETURN MAIN SQRT CHAR_LITERAL DOT STREAMIN STREAMOUT DO ADEV FALS MOD
 
 /* ce e mai important */
 %start program
@@ -43,7 +43,7 @@ program -> "numar sefu () {" multiple_declarations multiple_definitions multiple
 program: INT MAIN LPAREN RPAREN LBRACE multiple_declarations multiple_definitions multiple_statements RETURN INT_CONST SEMICOLON RBRACE
     { 
         record_production("program"); 
-        printf("E bun\n"); 
+        printf("\nE bunnnn\n"); 
         printf("Ultima productie buna: %s\n", last_production);
         printf("\n");
     }
@@ -60,19 +60,21 @@ math_opp: PLUS  { record_production("plus"); }
         | MUL  { record_production("mul"); }
         | DIV  { record_production("div"); }
         | EQ { record_production("eq"); };
+        | MOD { record_production("mod"); };
 
 /* math_expr -> multiple_math_expr math_opp multiple_math_expr | int */
 math_expr : multiple_math_expr math_opp multiple_math_expr  { record_production("math"); }
           | INT_CONST { record_production("int const"); };
+          | IDENTIFIER { record_production("identifier in math exp"); };
 
 /*  multiple_math_expr -> multiple_math_expr math_expr | math_expr */
 multiple_math_expr: multiple_math_expr math_expr { record_production("multiple math expr"); }
                   | math_expr { record_production("math_expr"); };
 
-/* relation -> "<" | "<=" | "=" | "!=" | ">=" | ">" */
+/* relation -> "<" | "<=" | "==" | "!=" | ">=" | ">" */
 relation : LT { record_production("<"); }
         | LTE { record_production("<="); }
-        | EQ { record_production("="); }
+        | EQ { record_production("=="); }
         | NEQ { record_production("!="); }
         | GTE { record_production(">="); }
         | GT { record_production(">"); };
@@ -88,8 +90,9 @@ bool_const: ADEV { record_production("adev"); }
           | FALS { record_production("minciunicaaaa"); };
 
 /* condition -> expression relation expression | bool */
-condition : expression relation expression { record_production("conditie mare"); }
-          | bool_const { record_production("bool const"); };
+bool_expression : math_expr relation math_expr { record_production("math expression"); };
+                | IDENTIFIER relation IDENTIFIER { record_production("identifiers relation"); }
+                | bool_const { record_production("bool const"); };
 
 //     char_definition -> "cara" identifier "=" char ";" 
 char_definition : CHAR IDENTIFIER ASSIGN CHAR_LITERAL SEMICOLON { record_production("char_definition"); };
@@ -142,11 +145,12 @@ assignment : int_assignment { record_production("int assignment"); }
            | string_assignment { record_production("string assignment"); }
            | struct_assignment { record_production("struct assignment"); }
            | bool_assignment { record_production("bool assignment"); }
+           | IDENTIFIER ASSIGN IDENTIFIER SEMICOLON { record_production("assign from identifier"); }
            ;
 
 /*     io_statement -> "citeste" >> identifier | "scrie" << identifier */
-io_statement : CIN STREAMOUT IDENTIFIER { record_production("cin"); }
-             | COUT STREAMIN IDENTIFIER { record_production("cout"); }
+io_statement : CIN STREAMIN IDENTIFIER SEMICOLON { record_production("cin"); }
+             | COUT STREAMOUT IDENTIFIER SEMICOLON { record_production("cout"); }
              ;
 
 /*     atomic_statement -> definition | assignment | io_statement  */
@@ -160,25 +164,25 @@ multiple_atomic_statements : multiple_atomic_statements atomic_statement { recor
                            | {}
                            ;
 
-/*     if_statement -> "daca" "(" condition ")" "{" multiple_atomic_statements "}" else_clause */
-if_statement : IF LPAREN condition RPAREN LBRACE multiple_atomic_statements RBRACE else_clause { record_production("if_statement"); }
+/*     if_statement -> "daca" "(" condition ")" "{" multiple_statements "}" else_clause */
+if_statement : IF LPAREN bool_expression RPAREN LBRACE multiple_statements RBRACE else_clause { record_production("if_statement"); }
 ;
 
-/*     else_clause -> "altfel" "{" multiple_atomic_statements "}" | ε */
-else_clause : ELSE LBRACE multiple_atomic_statements RBRACE { record_production("else_clause"); }
+/*     else_clause -> "altfel" "{" multiple_statements "}" | ε */
+else_clause : ELSE LBRACE multiple_statements RBRACE { record_production("else_clause"); }
             | { record_production("gol din else clause"); }
 ;
 
-/*     while_statement -> "cat" "(" condition ")" "{" multiple_atomic_statements "}" */
-while_statement : WHILE LPAREN condition RPAREN LBRACE multiple_atomic_statements RBRACE { record_production("while_statement"); }
+/*     while_statement -> "cat" "(" condition ")" "{" multiple_statements "}" */
+while_statement : WHILE LPAREN bool_expression RPAREN LBRACE multiple_statements RBRACE { record_production("while_statement"); }
 ;
 
-/*     do_while -> "fa" "{" multiple_atomic_statements "}" "cat" "(" condition ")" ";" */
-do_while : DO LBRACE multiple_atomic_statements RBRACE WHILE LPAREN condition RPAREN SEMICOLON { record_production("do_while"); }
+/*     do_while -> "fa" "{" multiple_statements "}" "cat" "(" condition ")" ";" */
+do_while : DO LBRACE multiple_statements RBRACE WHILE LPAREN bool_expression RPAREN SEMICOLON { record_production("do_while"); }
 ;
 
 /*     statement -> atomic_statement | if_statement | while_statement | do_while */
-statement : atomic_statement { record_production("atomc statement"); }
+statement : atomic_statement { record_production("atomic statement"); }
           | if_statement { record_production("if statement"); }
           | while_statement { record_production("while statement"); }
           | do_while { record_production("do statement"); }
@@ -202,12 +206,7 @@ multiple_statements : statement multiple_statements { record_production("multipl
 
 void yyerror(const char *s) {
     fprintf(stderr, "EROAREEE: %s\n", s);
-    if (prod_count > 0) {
-        // productia cu eroarea
-        printf("Ultima productie buna: %s\n", last_production);
-    } else {
-        printf("Nici n-am apucat sa reduc vreun product pana a aparut eroarea \n");
-    }
+    printf("Ultima productie buna: %s\n", last_production);
     exit(1);
 }
 
@@ -224,9 +223,9 @@ int main(int argc, char **argv) {
     }
 
     if (!yyparse()) {
-        printf("ok gataa e totu binee\n");
+        printf("ok gataa e totu binee ✅✅✅✅\n");
     } else {
-        printf("nu stiu cek kt are sincer sa fiu lmao\n");
+        printf("nu stiu cek kt are sincer sa fiu lmao ❌❌❌❌\n");
     }
     return 0;
 }

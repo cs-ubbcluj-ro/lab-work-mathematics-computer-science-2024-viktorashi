@@ -6,48 +6,49 @@ void yyerror(const char *s);
 
 %%
 
-"rezulta"     return RETURN;
-"sefu"         return MAIN;
-"numar"        return INT;
-"daca"         return IF;
-"altfel"       return ELSE;
-"fa"           return DO;   
-"cat"      return WHILE;
-"structura"     return STRUCT_TYPE;
-"citeste"        return CIN;
-"scrie"       return COUT;
-"bul"       return BOOL;
-"cara"       return CHAR;
-"sir"     return STRING;
-"sqrt" return SQRT;
-"adevar" return ADEV;
-"minciuna" return FALS;
+"rezulta"     { ECHO; return RETURN; }
+"sefu"         { ECHO; return MAIN; }
+"numar"        { ECHO; return INT; }
+"daca"         { ECHO; return IF; }
+"altfel"       { ECHO; return ELSE; }
+"fa"           { ECHO; return DO;    }
+"cat"      { ECHO; return WHILE; }
+"structura"     { ECHO; return STRUCT_TYPE; }
+"citeste"        { ECHO; return CIN; }
+"scrie"       { ECHO; return COUT; }
+"bul"       { ECHO; return BOOL; }
+"cara"       { ECHO; return CHAR; }
+"sir"     { ECHO; return STRING; }
+"sqrt" { ECHO; return SQRT; }
+"adevar" { ECHO; return ADEV; }
+"minciuna" { ECHO; return FALS; }
 
-[0-9]+       { return INT_CONST; }
-\"[^\"]*\"   { return STRING_LITERAL; }
-\'[^\"]\'   { return CHAR_LITERAL; }
+[0-9]+       { ECHO; return INT_CONST; }
+\"[^\"]*\"   { ECHO; return STRING_LITERAL; }
+\'[^\"]\'   { ECHO; return CHAR_LITERAL; }
 
-[a-zA-Z_aîsța][a-zaÎsȚaA-Z0-9_aîsțaaÎsȚa]* return IDENTIFIER;
+[a-zA-Z_aîsța][a-zaÎsȚaA-Z0-9_aîsțaaÎsȚa]* { ECHO; return IDENTIFIER; }
 
-"{"          return LBRACE;
-"}"          return RBRACE;
-"("          return LPAREN;
-")"          return RPAREN;
-"."          return DOT;
-"=="         return EQ;
-"!="         return NEQ;
-"<="         return LTE;
-">="         return GTE;
-"<"          return LT;
-">"          return GT;
-"="          return ASSIGN;
-";"          return SEMICOLON;
-"+"          return PLUS;
-"-"          return MINUS;
-"*"          return MUL;
-"/"          return DIV;
-"<<"         return STREAMIN;
-">>"         return STREAMOUT;
+"{"          { ECHO; return LBRACE; }
+"}"          { ECHO; return RBRACE; }
+"("          { ECHO; return LPAREN; }
+")"          { ECHO; return RPAREN; }
+"."          { ECHO; return DOT; }
+"=="         { ECHO; return EQ; }
+"!="         { ECHO; return NEQ; }
+"<="         { ECHO; return LTE; }
+">="         { ECHO; return GTE; }
+"<"          { ECHO; return LT; }
+">"          { ECHO; return GT; }
+"="          { ECHO; return ASSIGN; }
+";"          { ECHO; return SEMICOLON; }
+"+"          { ECHO; return PLUS; }
+"-"          { ECHO; return MINUS; }
+"*"          { ECHO; return MUL; }
+"/"          { ECHO; return DIV; }
+"%"          { ECHO; return MOD; }
+"<<"         { ECHO; return STREAMIN; }
+">>"         { ECHO; return STREAMOUT; }
 
 [ \t\n]+         /* Ignore whitespace */
 
