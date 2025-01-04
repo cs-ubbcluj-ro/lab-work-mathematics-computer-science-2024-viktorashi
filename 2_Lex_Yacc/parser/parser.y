@@ -14,11 +14,13 @@ extern int yydebug;
 
 void yyerror(const char *s);
 
-char * productions_used[28];
+//doar ultimul production ca da buffer overflow nebun rau intra in ce memorie vrea cand fac arryu asta
+char * last_production;
+
 int prod_count = 0;
 
 void record_production(char * production_name) {
-    productions_used[prod_count++] = production_name;
+    last_production = production_name;
 }
 
 %}
@@ -42,10 +44,7 @@ program: INT MAIN LPAREN RPAREN LBRACE multiple_declarations multiple_definition
     { 
         record_production("program"); 
         printf("E bun\n"); 
-        printf("Productiile sunt: ");
-        for (int i = 0; i < prod_count; i++) {
-            printf("%s ", productions_used[i]);
-        }
+        printf("Ultima productie buna: %s\n", last_production);
         printf("\n");
     }
 ;
@@ -205,8 +204,7 @@ void yyerror(const char *s) {
     fprintf(stderr, "EROAREEE: %s\n", s);
     if (prod_count > 0) {
         // productia cu eroarea
-        char* last_prod = productions_used[prod_count - 1];
-        printf("Ultima productie buna: %s\n", last_prod);
+        printf("Ultima productie buna: %s\n", last_production);
     } else {
         printf("Nici n-am apucat sa reduc vreun product pana a aparut eroarea \n");
     }

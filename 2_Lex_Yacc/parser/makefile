@@ -1,5 +1,5 @@
 Sfantu_c_parser:
 	flex lexeru.lex
 	yacc -dv parser.y
-	clang lex.yy.c y.tab.c -ly -ll -o rezultat.out
-	./rezultat.out input-simplu.lol
+	clang lex.yy.c y.tab.c -ly -ll -o parser.out
+	./parser.out input-simplu.lol

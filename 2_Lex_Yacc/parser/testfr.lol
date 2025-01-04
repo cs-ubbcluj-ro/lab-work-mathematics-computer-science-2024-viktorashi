@@ -1,24 +1,24 @@
-număr șefu() {
-    bul is_primenumăr;
+numar sefu() {
+    bul is_primenumar;
 
-    număr i = 2;
-    număr j  = 2;
-    număr count = 0;
-    număr k = 0 ;
+    numar i = 2;
+    numar j  = 2;
+    numar count = 0;
+    numar k = 0 ;
     
     scrie >> k;        
-    cât (count < k) {
+    cat (count < k) {
         is_prime = true;
         j = 2;
         
-        cât (j * j <= i) {
-            dacă (i % j == 0) {
+        cat (j * j <= i) {
+            daca (i % j == 0) {
                 is_prime = false;
             }
             j = j + 1;
         }
         
-        dacă (is_prime) {
+        daca (is_prime) {
             scrie << i << " ";  
             count = count + 1;
         }
@@ -28,5 +28,5 @@ număr șefu() {
     
     scrie << "\n" << "Primele prime gasite" << count << "\n";
     
-    rezultă 0;
+    rezulta 0;
 }
