@@ -1,5 +1,7 @@
-număr șefu() {
-    bul is_primenumăr;
+numar sefu() {
+    bul is_primenumar;
 
-    rezultă 0;
+    is_primenumar = adevar;
+
+    rezulta 0;
 }

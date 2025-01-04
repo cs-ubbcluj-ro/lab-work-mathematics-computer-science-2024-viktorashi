@@ -6,28 +6,28 @@ void yyerror(const char *s);
 
 %%
 
-"rezultă"     return RETURN;
-"șefu"         return MAIN;
-"număr"        return INT;
-"dacă"         return IF;
+"rezulta"     return RETURN;
+"sefu"         return MAIN;
+"numar"        return INT;
+"daca"         return IF;
 "altfel"       return ELSE;
-"fă"           return DO;   
-"cât"      return WHILE;
-"structură"     return STRUCT_TYPE;
-"citește"        return CIN;
+"fa"           return DO;   
+"cat"      return WHILE;
+"structura"     return STRUCT_TYPE;
+"citeste"        return CIN;
 "scrie"       return COUT;
 "bul"       return BOOL;
 "cara"       return CHAR;
-"șir"     return STRING;
+"sir"     return STRING;
 "sqrt" return SQRT;
-"adevăr" return ADEV;
-"minciună" return FALS;
+"adevar" return ADEV;
+"minciuna" return FALS;
 
-[0-9]+       { return INT_CONST; }
+\d+       { return INT_CONST; }
 \"[^\"]*\"   { return STRING_LITERAL; }
 \'[^\"]\'   { return CHAR_LITERAL; }
 
-[a-zA-Z_ăîșțâ][a-zĂÎȘȚÂA-Z0-9_ăîșțâĂÎȘȚÂ]* return IDENTIFIER;
+[a-zA-Z_aîsța][a-zaÎsȚaA-Z0-9_aîsțaaÎsȚa]* return IDENTIFIER;
 
 "{"          return LBRACE;
 "}"          return RBRACE;

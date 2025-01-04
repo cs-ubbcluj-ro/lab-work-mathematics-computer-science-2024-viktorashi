@@ -37,7 +37,7 @@ void record_production(char * production_name) {
 
 /*     #Start symbol:
 
-program -> "număr șefu () {" multiple_declarations multiple_definitions multiple_statements "rezultă" int_const;  "}" */
+program -> "numar sefu () {" multiple_declarations multiple_definitions multiple_statements "rezulta" int_const;  "}" */
 program: INT MAIN LPAREN RPAREN LBRACE multiple_declarations multiple_definitions multiple_statements RETURN INT_CONST SEMICOLON RBRACE
     { 
         record_production("program"); 
@@ -84,7 +84,7 @@ expression : math_expr { record_production("expression dar mate"); }
            | SQRT LPAREN IDENTIFIER RPAREN { record_production("radical identifier"); }
            | SQRT LPAREN INT_CONST RPAREN { record_production("radical const"); };
 
-/* bool_const -> 'adevăr' | 'minciună' */
+/* bool_const -> 'adevar' | 'minciuna' */
 bool_const: ADEV { record_production("adev"); }
           | FALS { record_production("minciunicaaaa"); };
 
@@ -95,10 +95,10 @@ condition : expression relation expression { record_production("conditie mare");
 //     char_definition -> "cara" identifier "=" char ";" 
 char_definition : CHAR IDENTIFIER ASSIGN CHAR_LITERAL SEMICOLON { record_production("char_definition"); };
 
-// string_definition -> "șir" identifier "=" string ";" 
+// string_definition -> "sir" identifier "=" string ";" 
 string_definition : STRING IDENTIFIER ASSIGN STRING_LITERAL SEMICOLON { record_production("string_definition"); };
 
-// int_definition -> "număr" identifier "=" (int_const | math_expr) ";"
+// int_definition -> "numar" identifier "=" (int_const | math_expr) ";"
 int_definition : INT IDENTIFIER ASSIGN INT_CONST SEMICOLON { record_production("int_definition int const"); }
               | INT IDENTIFIER ASSIGN math_expr SEMICOLON { record_production("int def expresie"); };
 
@@ -112,7 +112,7 @@ declaration : type IDENTIFIER SEMICOLON { record_production("declaration"); };
 multiple_declarations : declaration multiple_declarations { record_production("multiple declarations "); }
                       | {};
 
-// struct -> "structură" identifier "{" multiple_declarations "}" 
+// struct -> "structura" identifier "{" multiple_declarations "}" 
 struct_definition : STRUCT_TYPE IDENTIFIER LBRACE multiple_declarations RBRACE { record_production("struct"); };
 
 //     definition -> char_definition | int_definition | string_definition | struct 
@@ -134,14 +134,18 @@ string_assignment : IDENTIFIER ASSIGN STRING_LITERAL SEMICOLON { record_producti
 // assignment_struct -> identifier "." identifier "=" expression ";" 
 struct_assignment : IDENTIFIER DOT IDENTIFIER ASSIGN expression SEMICOLON { record_production("assignment_struct"); } ;
 
+//bool_assignment -> identifier "=" bool ";"
+bool_assignment : IDENTIFIER ASSIGN bool_const SEMICOLON { record_production("bool assignment"); };
+
 //     assignment -> assignment_int | assignment_char | assignment_string | assignment_struct 
 assignment : int_assignment { record_production("int assignment"); }
            | char_assignment { record_production("char assignment"); }
            | string_assignment { record_production("string assignment"); }
            | struct_assignment { record_production("struct assignment"); }
+           | bool_assignment { record_production("bool assignment"); }
            ;
 
-/*     io_statement -> "citește" >> identifier | "scrie" << identifier */
+/*     io_statement -> "citeste" >> identifier | "scrie" << identifier */
 io_statement : CIN STREAMOUT IDENTIFIER { record_production("cin"); }
              | COUT STREAMIN IDENTIFIER { record_production("cout"); }
              ;
@@ -157,7 +161,7 @@ multiple_atomic_statements : multiple_atomic_statements atomic_statement { recor
                            | {}
                            ;
 
-/*     if_statement -> "dacă" "(" condition ")" "{" multiple_atomic_statements "}" else_clause */
+/*     if_statement -> "daca" "(" condition ")" "{" multiple_atomic_statements "}" else_clause */
 if_statement : IF LPAREN condition RPAREN LBRACE multiple_atomic_statements RBRACE else_clause { record_production("if_statement"); }
 ;
 
@@ -166,11 +170,11 @@ else_clause : ELSE LBRACE multiple_atomic_statements RBRACE { record_production(
             | { record_production("gol din else clause"); }
 ;
 
-/*     while_statement -> "cât" "(" condition ")" "{" multiple_atomic_statements "}" */
+/*     while_statement -> "cat" "(" condition ")" "{" multiple_atomic_statements "}" */
 while_statement : WHILE LPAREN condition RPAREN LBRACE multiple_atomic_statements RBRACE { record_production("while_statement"); }
 ;
 
-/*     do_while -> "fă" "{" multiple_atomic_statements "}" "cât" "(" condition ")" ";" */
+/*     do_while -> "fa" "{" multiple_atomic_statements "}" "cat" "(" condition ")" ";" */
 do_while : DO LBRACE multiple_atomic_statements RBRACE WHILE LPAREN condition RPAREN SEMICOLON { record_production("do_while"); }
 ;
 
@@ -187,8 +191,8 @@ multiple_definitions : definition multiple_definitions { record_production("mult
                      | {}
 ;
 // multiple_statements -> multiple_statements statement | statement 
-multiple_statements : statement multiple_statements { record_production("mult statements 1"); }
-                    | statement { record_production("mult statements 2"); }
+multiple_statements : statement multiple_statements { record_production("multiple statements"); }
+                    | statement { record_production("statement"); }
                     | {}
 ;
 
