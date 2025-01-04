@@ -52,7 +52,7 @@ void yyerror(const char *s);
 
 [ \t\n]+         /* Ignore whitespace */
 
-.        { yyerror("Eroare de lexicc"); }
+.        { ECHO; yyerror("Eroare de lexicc"); }
 %%
 
 /* yywrap() - wraps the above rule section */

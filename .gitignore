@@ -2,7 +2,8 @@
 .idea
 .vscode
 y.output
-rezultat.out
+parser.out
+.swp
 y.tab.c
 y.tab.h
 lex.yy.c

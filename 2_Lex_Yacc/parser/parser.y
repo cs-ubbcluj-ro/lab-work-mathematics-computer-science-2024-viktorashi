@@ -157,12 +157,8 @@ io_statement : CIN STREAMOUT IDENTIFIER SEMICOLON { record_production("cin"); }
 atomic_statement : definition { record_production("atomic def"); }
                 | assignment { record_production("atomic assignment"); }
                 | io_statement { record_production("atomic io statement"); }
+                | declaration { record_production("atomic declaration"); }
                 ;
-
-/*     multiple_atomic_statements -> multiple_atomic_statements atomic_statement | ε */
-multiple_atomic_statements : multiple_atomic_statements atomic_statement { record_production("multiple_atomic_statements"); }
-                           | {}
-                           ;
 
 /*     if_statement -> "daca" "(" condition ")" "{" multiple_statements "}" else_clause */
 if_statement : IF LPAREN bool_expression RPAREN LBRACE multiple_statements RBRACE else_clause { record_production("if_statement"); }
@@ -188,14 +184,8 @@ statement : atomic_statement { record_production("atomic statement"); }
           | do_while { record_production("do statement"); }
 ;
 
-//     multiple_definitions -> multiple_definitions definition | definition
-multiple_definitions : definition multiple_definitions { record_production("multiple def 1"); }
-                     | definition { record_production("multiple def 2"); }
-                     | {}
-;
 // multiple_statements -> multiple_statements statement | statement 
 multiple_statements : statement multiple_statements { record_production("multiple statements"); }
-                    | statement { record_production("statement"); }
                     | {}
 ;
 
