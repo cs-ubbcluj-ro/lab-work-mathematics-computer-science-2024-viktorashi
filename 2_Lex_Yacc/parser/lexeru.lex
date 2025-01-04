@@ -23,7 +23,7 @@ void yyerror(const char *s);
 "adevar" return ADEV;
 "minciuna" return FALS;
 
-\d+       { return INT_CONST; }
+[0-9]+       { return INT_CONST; }
 \"[^\"]*\"   { return STRING_LITERAL; }
 \'[^\"]\'   { return CHAR_LITERAL; }
 
@@ -51,7 +51,7 @@ void yyerror(const char *s);
 
 [ \t\n]+         /* Ignore whitespace */
 
-.        { yyerror("nu stiu ce ai pus sincer"); }
+.        { yyerror("Eroare de lexicc"); }
 %%
 
 /* yywrap() - wraps the above rule section */
