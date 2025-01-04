@@ -66,6 +66,9 @@ math_opp: PLUS  { record_production("plus"); }
 math_expr : multiple_math_expr math_opp multiple_math_expr  { record_production("math"); }
           | INT_CONST { record_production("int const"); };
           | IDENTIFIER { record_production("identifier in math exp"); };
+          | SQRT LPAREN IDENTIFIER RPAREN { record_production("radical identifier"); }
+          | SQRT LPAREN INT_CONST RPAREN { record_production("radical const"); }
+          ;
 
 /*  multiple_math_expr -> multiple_math_expr math_expr | math_expr */
 multiple_math_expr: multiple_math_expr math_expr { record_production("multiple math expr"); }
@@ -82,8 +85,8 @@ relation : LT { record_production("<"); }
 /* expression -> math_expr | string | "sqrt(" ( identifier | const )  ")" */
 expression : math_expr { record_production("expression dar mate"); }
            | STRING_LITERAL { record_production("string literal"); }
-           | SQRT LPAREN IDENTIFIER RPAREN { record_production("radical identifier"); }
-           | SQRT LPAREN INT_CONST RPAREN { record_production("radical const"); };
+           | bool_expression { record_production("bool expression"); }
+           ;
 
 /* bool_const -> 'adevar' | 'minciuna' */
 bool_const: ADEV { record_production("adev"); }
@@ -91,8 +94,10 @@ bool_const: ADEV { record_production("adev"); }
 
 /* condition -> expression relation expression | bool */
 bool_expression : math_expr relation math_expr { record_production("math expression"); };
-                | IDENTIFIER relation IDENTIFIER { record_production("identifiers relation"); }
                 | bool_const { record_production("bool const"); };
+                | math_expr { record_production("math expr in bool exp"); };
+                | IDENTIFIER relation IDENTIFIER { record_production("identifiers relation"); }
+                | IDENTIFIER { record_production("identifier in bool exp"); };
 
 //     char_definition -> "cara" identifier "=" char ";" 
 char_definition : CHAR IDENTIFIER ASSIGN CHAR_LITERAL SEMICOLON { record_production("char_definition"); };
@@ -126,6 +131,7 @@ definition : char_definition { record_production("char definition"); }
 
 //     assignment_int -> identifier "=" int ";"
 int_assignment : IDENTIFIER ASSIGN INT_CONST SEMICOLON { record_production("assignment_int"); };
+                | IDENTIFIER ASSIGN math_expr SEMICOLON { record_production("assignment_int cu math_expr"); };
 
 // assignment_char -> identifier "=" char ";"
 char_assignment : IDENTIFIER ASSIGN CHAR_LITERAL SEMICOLON { record_production("assignment_char");};
@@ -148,9 +154,15 @@ assignment : int_assignment { record_production("int assignment"); }
            | IDENTIFIER ASSIGN IDENTIFIER SEMICOLON { record_production("assign from identifier"); }
            ;
 
+// chain_streamin_operator -> ( << identifier | << expression ) chain_streamin_operator | ε
+chain_streamin_operator : STREAMIN IDENTIFIER chain_streamin_operator { record_production("streamin op cu id"); }
+                        | STREAMIN expression chain_streamin_operator { record_production("streamin op cu expr"); }
+                        | {}
+                        ;
+
 /*     io_statement -> "citeste" >> identifier | "scrie" << identifier */
-io_statement : CIN STREAMIN IDENTIFIER SEMICOLON { record_production("cin"); }
-             | COUT STREAMOUT IDENTIFIER SEMICOLON { record_production("cout"); }
+io_statement : CIN STREAMOUT IDENTIFIER SEMICOLON { record_production("cin"); }
+             | COUT chain_streamin_operator SEMICOLON { record_production("cout statement"); }
              ;
 
 /*     atomic_statement -> definition | assignment | io_statement  */
