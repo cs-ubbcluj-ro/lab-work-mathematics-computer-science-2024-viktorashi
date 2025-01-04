@@ -192,7 +192,7 @@ multiple_statements : statement multiple_statements { record_production("multipl
 /*     #Start symbol:
 
 program -> "numar sefu () {" multiple_declarations multiple_definitions multiple_statements "rezulta" int_const;  "}" */
-program: INT MAIN LPAREN RPAREN LBRACE multiple_declarations multiple_definitions multiple_statements RETURN INT_CONST SEMICOLON RBRACE
+program: INT MAIN LPAREN RPAREN LBRACE multiple_statements RETURN INT_CONST SEMICOLON RBRACE
     { 
         record_production("program"); 
         printf("\nE bunnnn\n"); 
