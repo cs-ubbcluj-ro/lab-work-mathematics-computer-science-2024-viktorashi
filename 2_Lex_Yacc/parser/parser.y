@@ -37,18 +37,6 @@ void record_production(char * production_name) {
 /* productiile no */
 %%
 
-/*     #Start symbol:
-
-program -> "numar sefu () {" multiple_declarations multiple_definitions multiple_statements "rezulta" int_const;  "}" */
-program: INT MAIN LPAREN RPAREN LBRACE multiple_declarations multiple_definitions multiple_statements RETURN INT_CONST SEMICOLON RBRACE
-    { 
-        record_production("program"); 
-        printf("\nE bunnnn\n"); 
-        printf("Ultima productie buna: %s\n", last_production);
-        printf("\n");
-    }
-;
-
 type: CHAR { record_production("type char"); }
     | INT  { record_production("type int"); }
     | STRING  { record_production("type string"); }
@@ -211,7 +199,17 @@ multiple_statements : statement multiple_statements { record_production("multipl
                     | {}
 ;
 
+/*     #Start symbol:
 
+program -> "numar sefu () {" multiple_declarations multiple_definitions multiple_statements "rezulta" int_const;  "}" */
+program: INT MAIN LPAREN RPAREN LBRACE multiple_declarations multiple_definitions multiple_statements RETURN INT_CONST SEMICOLON RBRACE
+    { 
+        record_production("program"); 
+        printf("\nE bunnnn\n"); 
+        printf("Ultima productie buna: %s\n", last_production);
+        printf("\n");
+    }
+;
 
 /* sau trebuia sa pun invers toate astea? sincer creca nu  */
 %%
